@@ -5,4 +5,4 @@ client.on('ready', () => {
     console.log(client.user.tag + ' Ready!');
 });
 
-client.login();
+client.login(process.env.BOT_TOKEN);
