@@ -82,7 +82,7 @@ client.on('message', message => {
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one haven't ${getRole.name} role.`);
 				let timer = new Discord.RichEmbed()
-				.setTitle(`:timer: Please wait some secounds ..`)
+				.setTitle(`:timer: Please wait a few seconds ..`)
 				.setColor('#d3c325');
 				message.channel.send({
 					embed: timer
@@ -104,7 +104,7 @@ client.on('message', message => {
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 				if(message.guild.members.filter(m => message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one have ${getRole.name} role.`);
 				let timer = new Discord.RichEmbed()
-				.setTitle(`:timer: Please wait some secounds ..`)
+				.setTitle(`:timer: Please wait a few seconds ..`)
 				.setColor('#d3c325');
 				message.channel.send({
 					embed: timer
