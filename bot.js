@@ -23,6 +23,7 @@ function suc(message, args) {
 }
 
 var prefix = '-';
+var members = 0;
 
 client.on('message', message => {
 	if(message.author.bot) return;
