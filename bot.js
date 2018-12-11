@@ -109,6 +109,7 @@ client.on('message', message => {
 				message.channel.send({
 					embed: timer
 				}).then(message1 => {
+					var membersRole = message.guild.members.filter(m => message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size;
 					message.guild.members.filter(m => message.guild.member(m).roles.has(getRole.id) && !m.user.bot).forEach(m => {
 						message.guild.member(m).removeRole(getRole.id);
 						setTimeout(() => {
