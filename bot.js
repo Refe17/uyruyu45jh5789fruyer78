@@ -130,6 +130,7 @@ client.on('message', message => {
 		if(userM) {
 			if(!getRole) return err(message, "Unkown role.");
 			if(getRole.name === '@everyone') return err(message, "Unkown role.");
+			if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 			if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 			if(!message.guild.member(userM.user).roles.has(getRole.id)) {
 				message.guild.member(userM.user).addRole(getRole.id);
@@ -144,6 +145,7 @@ client.on('message', message => {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
+				if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one haven't ${getRole.name} role.`);
 				let timer = new Discord.RichEmbed()
@@ -166,6 +168,7 @@ client.on('message', message => {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
+				if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 				if(message.guild.members.filter(m => message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one have ${getRole.name} role.`);
 				let timer = new Discord.RichEmbed()
@@ -191,6 +194,7 @@ client.on('message', message => {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
+				if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 				if(message.guild.members.filter(b => !message.guild.member(b).roles.has(getRole.id) && b.user.bot).size == 0) return err(message, `No bot haven't ${getRole.name} role.`);
 				let timer = new Discord.RichEmbed()
@@ -213,6 +217,7 @@ client.on('message', message => {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
+				if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`REMOVE\`\` The role with name **${getRole.name}** From any Bot beacuse the role highest then my role!`);
 				if(message.guild.members.filter(b => message.guild.member(b).roles.has(getRole.id) && b.user.bot).size == 0) return message.channel.send(`:no_entry: | I can\'t find any bot have **${getRole.name}** role!`);
 				let timer = new Discord.RichEmbed()
@@ -238,6 +243,7 @@ client.on('message', message => {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
+				if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`GIVE\`\` Any User the role with name **${getRole.name}** beacuse the role highest then my role!`);
 				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id)).size == 0) return message.channel.send(`:no_entry: | I can\'t find any user not have **${getRole.name}** role!`);
 				let timer = new Discord.RichEmbed()
@@ -259,6 +265,7 @@ client.on('message', message => {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
+				if(getRole.position >= message.guild.member(message.author).highestRole.position) return err(message, `${getRole.name} role highest then your role.`);
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`REMOVE\`\` The role with name **${getRole.name}** From any User beacuse the role highest then my role!`);
 				if(message.guild.members.filter(m => message.guild.member(m).roles.has(getRole.id)).size == 0) return message.channel.send(`:no_entry: | I can\'t find any user have **${getRole.name}** role!`);
 				let timer = new Discord.RichEmbed()
