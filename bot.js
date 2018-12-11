@@ -326,11 +326,7 @@ client.on('message', message => {
 		if(!userM) return err(message, "I cant find the member.");
 		if(userM.id == message.author.id) return err(message, "You cant give kick to yourself.");
 		if(message.guild.member(client.user).highestRole.position <= message.guild.member(userM.user).highestRole.position) return err(message, `I cant kicked ${userM.user.username}.`);
-		var reason = message.content.split(' ').slice(2).join(' ');
-		if(!reason) reason = 'No reason given.';
-		message.guild.member(userM.user).kick({
-			reason: reason
-		});
+		message.guild.member(userM.user).kick();
 		suc(message, `Successfully kicked ${userM.user.username}.`);
 	}
 });
