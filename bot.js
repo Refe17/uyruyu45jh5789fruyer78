@@ -34,7 +34,15 @@ client.on('message', message => {
 	
 	if(command == prefix + 'help') {
 		if(!args[1]) {
-			message.channel.send('Soon.');
+			const help = new Discord.RichEmbed()
+			.setAuthor(client.user.username, client.user.avatarURL)
+			.addField(`${prefix}ban`, '`The role of the bot must be higher than the person to be banned and must have permission to ban members.`')
+			.addField(`${prefix}kick`, '`The role of the bot must be higher than the person to be kicked and must have permission to kick members.`')
+			.addField(`${prefix}role`, '`The role of bot must be higher than the role mentioned and must have permission to give the roles.`')
+			.addField(`${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
+			.addField(`${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
+			.setTimestamp()
+			.setFooter(message.author.tag, message.author.avatarURL)
 		}else if(args[1] == 'role') {
 			message.channel.send('Help role soon.');
 		}else if(args[1] == 'ban') {
