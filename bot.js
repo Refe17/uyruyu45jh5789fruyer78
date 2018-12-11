@@ -49,6 +49,8 @@ client.on('message', message => {
 			});
 		}else if(args[1] == 'role') {
 			const role = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Role Command.')
+			.setColor('GREEN')
 			.setDescription('The role of bot must be higher than the role mentioned and must have permission to give the roles.\n')
 			.addField(`${prefix}role <member> <role>`, '`if the member has the role, the bot will be remove it, but if haven\'t the role, the bot will give him.`')
 			.addField(`${prefix}role humans add <role>`, '`Give all human(s) the role.`')
@@ -64,6 +66,8 @@ client.on('message', message => {
 			});
 		}else if(args[1] == 'ban') {
 			const ban = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Ban Command.')
+			.setColor('GREEN')
 			.setDescription('The role of the bot must be higher than the person to be banned and must have permission to ban members.\n')
 			.addField(`-ban <member> <reason>`, 'Banned the member by id or mention and you dont need to type the reason.')
 			.setTimestamp()
@@ -73,6 +77,8 @@ client.on('message', message => {
 			});
 		}else if(args[1] == 'kick') {
 			const kick = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Kick Command.')
+			.setColor('GREEN')
 			.setDescription('The role of the bot must be higher than the person to be kicked and must have permission to kick members.\n')
 			.addField(`-kick <member>`, 'Kicked the member by id or mention.')
 			.setTimestamp()
@@ -82,6 +88,8 @@ client.on('message', message => {
 			});
 		}else if(args[1] == 'mute') {
 			const mute = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Mute Command.')
+			.setColor('GREEN')
 			.setDescription('The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.\n')
 			.addField(`-mute <member>`, 'Muted member by id or mention.')
 			.setTimestamp()
@@ -91,6 +99,8 @@ client.on('message', message => {
 			});
 		}else if(args[1] == 'unmute') {
 			const unmute = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Unmute Command.')
+			.setColor('GREEN')
 			.setDescription('The mentioned member must have muted to unmute him.\n')
 			.addField(`-unmute <member>`, 'Unmuted member by id or mention.')
 			.setTimestamp()
