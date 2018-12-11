@@ -23,6 +23,7 @@ function suc(message, args) {
 }
 
 var prefix = '-';
+var members = 0;
 
 client.on('message', message => {
 	if(message.author.bot) return;
@@ -81,7 +82,6 @@ client.on('message', message => {
 				if(getRole.name == '@everyone') return err(message, "Unkown role.");
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`GIVE\`\` Any User the role with name **${getRole.name}** beacuse the role highest then my role!`);
 				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one haven't ${getRole.name} role.`);
-				var members = 0;
 				let timer = new Discord.RichEmbed()
 				.setTitle(`:timer: So far, ${members} members have been given the role ..`)
 				.setColor('#d3c325');
