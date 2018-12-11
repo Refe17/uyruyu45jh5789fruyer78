@@ -34,10 +34,10 @@ client.on('message', message => {
     
 	if(command == prefix + 'role') {
 		if(!message.member.hasPermission('MANAGE_ROLES')) return;
-        if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+        	if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
 		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
-        if(!args[1]) return err(message, `Use ( ${prefix}help role ) for more inforamtions.`);
-		if(!userM && args[1] !== 'humans' && args[1] !== 'bots' && args[1] !== 'all') return err(message, `Use ( ${prefix}help role ) for more inforamtions.`);
+    		if(!args[1]) return err(message, `Use ${prefix}help for more inforamtions.`);
+		if(!userM && args[1] !== 'humans' && args[1] !== 'bots' && args[1] !== 'all') return err(message, `Use ${prefix}help for more inforamtions.`);
 		if(userM) {
 			var argsRole = message.content.toLowerCase().split(' ').slice(2);
 		}else if(args[1] === 'humans' || args[1] === 'bots' || args[1] === 'all') {
@@ -45,15 +45,15 @@ client.on('message', message => {
 		}
 		var getRole = message.mentions.roles.first() || message.guild.roles.find(r => r.id === argsRole) || message.guild.roles.find(r => r.name.toLowerCase().includes(argsRole));
 		if(userM) {
-			if(!getRole) return message.channel.send(':no_entry: | I couldn\'t find the role!');
-			if(getRole.name === '@everyone') return message.channel.send(':no_entry: | I couldn\'t find the role!');
-			if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`GIVE\`\` Or \`\`DELETE\`\` Any user have or not have **${getRole.name}** role beacuse this role highest from my role!`);
+			if(!getRole) return err(message, "Unkown role.");
+			if(getRole.name === '@everyone') return err(message, "Unkown role.");
+			if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 			if(!message.guild.member(userM.user).roles.has(getRole.id)) {
 				message.guild.member(userM.user).addRole(getRole.id);
-				message.channel.send(`:white_check_mark: | Successfully \`\`GIVE\`\` The role **${getRole.name}** To user **${userM.user.tag}**`);
+				suc(message, `Successfully give ${userM} the role ${getRole.name}`);
 			}else if(message.guild.member(userM.user).roles.has(getRole.id)) {
 				message.guild.member(userM.user).removeRole(getRole.id);
-				message.channel.send(`:white_check_mark: | Successfully \`\`DELETE\`\` The role **${getRole.name}** From user **${userM.user.tag}**`);
+				suc(message, `Successfully remove from ${userM} the role ${getRole.name}`);
 			}
 		}else if(args[1] === 'humans') {
 			let notArgs = new Discord.RichEmbed()
