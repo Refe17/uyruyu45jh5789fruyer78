@@ -197,7 +197,8 @@ client.on('message', message => {
 								embed: new Discord.RichEmbed().setAuthor(`Successfully give ${botsRole} bot(s) role ${getRole.name}`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
 							});
 						}, 10000)
-					})
+					});
+				}else err(message, `Use ${prefix}help for more informations.`);
 			}else if(args[2] === 'remove') {
 				if(!args[3]) return err(message, "Unkown role.");
 				if(!getRole) return err(message, "Unkown role.");
@@ -220,7 +221,7 @@ client.on('message', message => {
 						}, 10000)
 					});
 				});
-			}
+			}else err(message, `Use ${prefix}help for more informations.`);
 		}else if(args[1] === 'all') {
 			if(!args[2]) return err(message, `Use ${prefix}help for more inforamtions.`);
 			if(args[2] === 'add') {
@@ -264,8 +265,8 @@ client.on('message', message => {
 							});
 						}, 20000)
 					});
-				})
-			}
+				});
+			}else err(message, `Use ${prefix}help for more informations.`);
 		}
 	}
 	
