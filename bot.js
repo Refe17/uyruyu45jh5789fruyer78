@@ -98,6 +98,7 @@ client.on('message', message => {
 							message1.edit({
 								embed: new Discord.RichEmbed().setAuthor(`Successfully give ${members} role ${getRole.name}`, "").setColor('GREEN')
 							});
+							members = 0;
 							return;
 						}
 						message1.edit({
