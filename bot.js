@@ -27,11 +27,29 @@ var prefix = '-';
 client.on('message', message => {
 	if(message.author.bot) return;
 	if(message.channel.type === 'dm') return;
-    
+	
 	var command = message.content.toLowerCase().split(" ")[0];
 	var args = message.content.toLowerCase().split(" ");
 	var userM = message.guild.member(message.mentions.users.first() || message.guild.members.find(m => m.id === args[1]));
-    
+	
+	if(command == prefix + 'help') {
+		if(!args[1]) {
+			message.channel.send('Soon.');
+		}else if(args[1] == 'role') {
+			message.channel.send('Help role soon.');
+		}else if(args[1] == 'ban') {
+			message.channel.send('Help ban soon.');
+		}else if(args[1] == 'kick') {
+			message.channel.send('Help kick soon.');
+		}else if(args[1] == 'mute') {
+			message.channel.send('Help mute soon.');
+		}else if(args[1] == 'unmute') {
+			message.channel.send('Help unmute soon.');
+		}else {
+			err(message, "Unkown command.");
+		}
+	}
+	
 	if(command == prefix + 'role') {
 		if(!message.member.hasPermission('MANAGE_ROLES')) return;
         	if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
