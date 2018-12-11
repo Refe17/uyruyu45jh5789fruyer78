@@ -50,10 +50,10 @@ client.on('message', message => {
 			if(getRole.position >= message.guild.member(client.user).highestRole.position) return err(message, `${getRole.name} role highest then my role.`);
 			if(!message.guild.member(userM.user).roles.has(getRole.id)) {
 				message.guild.member(userM.user).addRole(getRole.id);
-				suc(message, `Successfully give ${userM} the role ${getRole.name}`);
+				suc(message, `Successfully give ${userM.user.username} the role ${getRole.name}`);
 			}else if(message.guild.member(userM.user).roles.has(getRole.id)) {
 				message.guild.member(userM.user).removeRole(getRole.id);
-				suc(message, `Successfully remove from ${userM} the role ${getRole.name}`);
+				suc(message, `Successfully remove from ${userM.user.username} the role ${getRole.name}`);
 			}
 		}else if(args[1] === 'humans') {
 			let notArgs = new Discord.RichEmbed()
