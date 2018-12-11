@@ -287,6 +287,8 @@ client.on('message', message => {
 		if(userM.id == message.author.id) return err(message, "You cant give mute to yourself.");
 		if(userM.user.bot) return err(message, "You cant give mute to bot.");
 		if(message.guild.member(userM.user).hasPermission('ADMINISTRATOR')) return err(message, `I cant give to ${userM.user.username} mute.`);
+		var muteRole = message.guild.roles.find(r => r.name == 'Muted').id;
+		if(!muteRole) return err(message, "I cant find role with name Muted.");
 		message.guild.member(userM.user).addRole(message.guild.roles.find(r => r.name == 'Muted').id);
 		suc(message, `Successfully give ${userM.user.username} Muted.`);
 	}
