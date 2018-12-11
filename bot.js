@@ -42,7 +42,10 @@ client.on('message', message => {
 			.addField(`${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
 			.addField(`${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
 			.setTimestamp()
-			.setFooter(message.author.tag, message.author.avatarURL)
+			.setFooter(message.author.tag, message.author.avatarURL);
+			message.channel.send({
+				embed: help
+			});
 		}else if(args[1] == 'role') {
 			message.channel.send('Help role soon.');
 		}else if(args[1] == 'ban') {
