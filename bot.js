@@ -23,7 +23,6 @@ function suc(message, args) {
 }
 
 var prefix = '-';
-var members = 0;
 
 client.on('message', message => {
 	if(message.author.bot) return;
@@ -90,19 +89,20 @@ client.on('message', message => {
 				}).then(message1 => {
 					message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).forEach(m => {
 						message.guild.member(m).addRole(getRole.id);
-						while(m.size > members) {
-							members++;
-							if(members == m.size) {
-								message1.edit({
-									embed: suc(message, `Successfully give ${m.size} the role ${getRole.name}`)
-								});
-								return;
-							}
-							message1.edit({
-								embed: timer
-							});
-						}
 					});
+					var membersrole = message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size;
+					while(membersrole > members) {
+						members++;
+						if(members == membersrole) {
+							message1.edit({
+								embed: new Discord.RichEmbed().setAuthor(`Successfully give ${members} role ${getRole.name}`, "").setColor('GREEN')
+							});
+							return;
+						}
+						message1.edit({
+							embed: timer
+						});
+					}
 				});
 			}else if(args[2] === 'remove') {
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`REMOVE\`\` The role with name **${getRole.name}** From any User beacuse the role highest then my role!`);
