@@ -275,7 +275,19 @@ client.on('message', message => {
 	}
 	
 	if(command == prefix + 'ban') {
-		
+		if(!message.member.hasPermission('BAN_MEMBERS')) return;
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('BAN_MEMBERS')) return err(message, "I dont have Ban Members permission.");
+		if(!args[1]) return err(message, "Mention the member to give him ban.");
+		if(!userM) return err(message, "I cant find the member.");
+		if(userM.id == message.author.id) return err(message, "You cant give ban to yourself.");
+		if(message.guild.member(client.user).highestRole.position <= message.guild.member(userM.user).highestRole.position) return err(message, `I cant banned ${userM.user.username}.`);
+		var reason = message.content.split(' ').slice(2).join(' ');
+		if(!reason) reason = 'No reason given.';
+		message.guild.member(userM.user).ban({
+			reason: reason
+		});
+		suc(message, `Successfully banned ${userM.user.username}.`);
 	}
 	
 	if(command == prefix + 'mute') {
@@ -307,7 +319,19 @@ client.on('message', message => {
 	}
 	
 	if(command == prefix + 'kick') {
-		
+		if(!message.member.hasPermission('KICK_MEMBERS')) return;
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('KICK_MEMBERS')) return err(message, "I dont have Kick Members permission.");
+		if(!args[1]) return err(message, "Mention the member to give him kick.");
+		if(!userM) return err(message, "I cant find the member.");
+		if(userM.id == message.author.id) return err(message, "You cant give kick to yourself.");
+		if(message.guild.member(client.user).highestRole.position <= message.guild.member(userM.user).highestRole.position) return err(message, `I cant kicked ${userM.user.username}.`);
+		var reason = message.content.split(' ').slice(2).join(' ');
+		if(!reason) reason = 'No reason given.';
+		message.guild.member(userM.user).kick({
+			reason: reason
+		});
+		suc(message, `Successfully kicked ${userM.user.username}.`);
 	}
 });
 
