@@ -289,7 +289,11 @@ client.on('message', message => {
 		if(message.guild.member(userM.user).hasPermission('ADMINISTRATOR')) return err(message, `I cant give to ${userM.user.username} mute.`);
 		var muteRole = message.guild.roles.find(r => r.name == 'Muted').id;
 		if(!muteRole) return err(message, "I cant find role with name Muted.");
-		message.guild.member(userM.user).addRole(message.guild.roles.find(r => r.name == 'Muted').id);
+		var reasonA = message.content.split(' ').slice(2).join(' ');
+		if(!reasonA) reasonA = 'No reason given.';
+		message.guild.member(userM.user).addRole(message.guild.roles.find(r => r.name == 'Muted').id, {
+			reason: reasonA
+		});
 		suc(message, `Successfully give ${userM.user.username} Muted.`);
 	}
 	
