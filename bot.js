@@ -6,7 +6,7 @@ client.on('ready', () => {
 });
 
 function err(message, args) {
-    const err = new Discord RichEmbed()
+    const err = new Discord.RichEmbed()
     .setAuthor(args, "https://tse1.mm.bing.net/th?id=OIP.J-y_zWr6CiYBywhxuhKOVAHaHa&pid=15.1&P=0&w=300&h=300")
     .setColor('RED');
     message.channel.send({
