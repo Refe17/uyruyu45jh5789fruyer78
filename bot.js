@@ -50,7 +50,7 @@ client.on('message', message => {
 		}
 	}
 	
-	if(message.content == 'رابط') message.author.send('https://discord.gg/sG8ZXsA').catch(err => err(message, "You must open your DM for link.").then(msg => msg.delete(2000)));
+	if(message.content == 'رابط') message.author.send('https://discord.gg/sG8ZXsA').catch(error => err(message, "You must open your DM for link.").then(msg => msg.delete(2000)));
 	
 	if(command == prefix + 'role') {
 		if(!message.member.hasPermission('MANAGE_ROLES')) return;
