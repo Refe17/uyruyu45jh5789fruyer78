@@ -290,16 +290,20 @@ client.on('message', message => {
 		var muteRole = message.guild.roles.find(r => r.name == 'Muted');
 		if(!muteRole) return err(message, "I cant find role with name Muted.");
 		if(message.guild.member(userM.user).roles.has(muteRole.id)) return err(message, `${userM.user.username} already muted.`);
-		var reasonA = message.content.split(' ').slice(1).join(' ');
-		if(!reasonA) reasonA = "No reason given.";
-		message.guild.member(userM.user).addRole(muteRole.id, {
-			reason: reasonA
-		});
+		message.guild.member(userM.user).addRole(muteRole.id);
 		suc(message, `Successfully give ${userM.user.username} Muted.`);
 	}
 	
 	if(command == prefix + 'unmute') {
-		
+		if(!message.member.hasPermission('BAN_MEMBERS')) return;
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
+		if(!args[1]) return err(message, "Mention the member to unmute him.");
+		if(!userM) return err(message, "I cant find the member.");
+		var muteRole = message.guild.roles.find(r => r.name == 'Muted');
+		if(!message.guild.member(userM.user).roles.has(muteRole.id)) return err(message, `${userM.user.username} is not muted.`);
+		message.guild.member(userM.user).removeRole(muteRole.id);
+		suc(message, `Successfully remove muted from ${userM.user.username}.`);
 	}
 	
 	if(command == prefix + 'kick') {
