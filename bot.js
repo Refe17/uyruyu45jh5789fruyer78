@@ -23,7 +23,6 @@ function suc(message, args) {
 }
 
 var prefix = '-';
-var members = 0;
 
 client.on('message', message => {
 	if(message.author.bot) return;
@@ -83,28 +82,20 @@ client.on('message', message => {
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`GIVE\`\` Any User the role with name **${getRole.name}** beacuse the role highest then my role!`);
 				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one haven't ${getRole.name} role.`);
 				let timer = new Discord.RichEmbed()
-				.setTitle(`:timer: So far, ${members} members have been given the role ..`)
+				.setTitle(`:timer: Please wait some secounds ..`)
 				.setColor('#d3c325');
 				message.channel.send({
 					embed: timer
 				}).then(message1 => {
+					var membersRole = message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size;
 					message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).forEach(m => {
 						message.guild.member(m).addRole(getRole.id);
 					});
-					var membersrole = message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size;
-					while(membersrole > members) {
-						members++;
-						if(members == membersrole) {
-							message1.edit({
-								embed: new Discord.RichEmbed().setAuthor(`Successfully give ${members} role ${getRole.name}`, "").setColor('GREEN')
-							});
-							members = 0;
-							return;
-						}
+					setTimeout(() => {
 						message1.edit({
-							embed: timer
+							embed: new Discord.RichEmbed().setAuthor(`Successfully give ${membersRole} role ${getRole.name}`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
 						});
-					}
+					}, 15000);
 				});
 			}else if(args[2] === 'remove') {
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`REMOVE\`\` The role with name **${getRole.name}** From any User beacuse the role highest then my role!`);
