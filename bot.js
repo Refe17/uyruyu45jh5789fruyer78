@@ -290,7 +290,7 @@ client.on('message', message => {
 		var muteRole = message.guild.roles.find(r => r.name == 'Muted');
 		if(!muteRole) return err(message, "I cant find role with name Muted.");
 		if(message.guild.member(userM.user).roles.has(muteRole.id)) return err(message, `${userM.user.username} already muted.`);
-		var reasonA = message.content.split(' ').slice(2).join(' ');
+		var reasonA = message.content.split(' ').slice(1).join(' ');
 		if(!reasonA) reasonA = "No reason given.";
 		message.guild.member(userM.user).addRole(muteRole.id, {
 			reason: reasonA
