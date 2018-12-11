@@ -73,48 +73,37 @@ client.on('message', message => {
 				message.guild.member(userM.user).removeRole(getRole.id);
 				suc(message, `Successfully remove from ${userM.user.username} the role ${getRole.name}`);
 			}
-		}else if(args[1] === 'humans') {
-			let notArgs = new Discord.RichEmbed()
-			.setTitle(':white_check_mark: Role Command.')
-			.setColor('GREEN')
-			.setDescription(`**\n${prefix}role humans add <ROLE>**\n➥ \`\`For give the humans the role.\`\`\n\n**${prefix}role humans remove <ROLE>**\n➥ \`\`For delete the role from all humans.\`\``)
-			.setTimestamp()
-			.setFooter(message.author.tag, message.author.avatarURL)
-			if(!args[2]) return message.channel.send(notArgs);
-			if(!args[3]) return message.channel.send(notArgs);
-			if(!getRole) return message.channel.send(':no_entry: | I couldn\'t find the role!');
-			if(getRole.name === '@everyone') return message.channel.send(':no_entry: | I couldn\'t find the role!');
+		}else if(args[1] == 'humans') {
+			if(!args[2]) return err(message, `Use ${prefix}help for more inforamtions.`);
 			if(args[2] === 'add') {
+				if(!args[3]) return err(message, "Unkown role.");
+				if(!getRole) return err(message, "Unkown role.");
+				if(getRole.name == '@everyone') return err(message, "Unkown role.");
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`GIVE\`\` Any User the role with name **${getRole.name}** beacuse the role highest then my role!`);
-				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return message.channel.send(`:no_entry: | I can\'t find any user not have **${getRole.name}** role!`);
-				let humansSure = new Discord.RichEmbed()
-				.setTitle(`:red_circle: Are you sure to give **${message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size}** Humans the role **${getRole.name}**`)
-				.setColor('RED')
-				.setDescription('**\nYou have 1 min to choose reaction you want.**\n\n✅ = Sure, give him the role.\n\n❎ = No no, cancel.')
-				.setTimestamp()
-				.setFooter(message.author.tag, message.author.avatarURL)
-				message.channel.send(humansSure).then(msg => {
-					msg.react('✅').then(() => msg.react('❎'))
-					let giveHim = (reaction, user) => reaction.emoji.name === '✅'  && user.id === message.author.id;
-					let dontGiveHim = (reaction, user) => reaction.emoji.name === '❎' && user.id === message.author.id;
-					let give = msg.createReactionCollector(giveHim, { time: 60000 });
-					let dontGive = msg.createReactionCollector(dontGiveHim, { time: 60000 });
-					give.on('collect', r => {
-						msg.delete();
-						message.channel.send(`:timer: | Now you must wait some time to give **${message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size}** Humans the role **${getRole.name}** ...`).then(message1 => {
-							message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).forEach(m => {
-								message.guild.member(m).addRole(getRole.id);
-								setTimeout(() => {
-									message1.edit(`:white_check_mark: | <@${message.author.id}> Successfully give all **Humans** The role **${getRole.name}** .`);
-								}, 10000)
+				if(message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return err(message, `No one haven't ${getRole.name} role.`);
+				var members = 0;
+				let timer = new Discord.RichEmbed()
+				.setTitle(`:timer: So far, ${members} members have been given the role ..`)
+				.setColor('#d3c325');
+				message.channel.send({
+					embed: timer
+				}).then(message1 => {
+					message.guild.members.filter(m => !message.guild.member(m).roles.has(getRole.id) && !m.user.bot).forEach(m => {
+						message.guild.member(m).addRole(getRole.id);
+						while(m.size > members) {
+							members++;
+							if(members == m.size) {
+								message1.edit({
+									embed: suc(message, `Successfully give ${m.size} the role ${getRole.name}`)
+								});
+								return;
+							}
+							message1.edit({
+								embed: timer
 							});
-						});
+						}
 					});
-					dontGive.on('collect', r => {
-						msg.delete();
-						message.channel.send(':negative_squared_cross_mark: | The command has been canceld.').then(msg => msg.delete(5000));
-					});
-				})
+				});
 			}else if(args[2] === 'remove') {
 				if(getRole.position >= message.guild.member(client.user).highestRole.position) return message.channel.send(`:no_entry: | I can\'t \`\`REMOVE\`\` The role with name **${getRole.name}** From any User beacuse the role highest then my role!`);
 				if(message.guild.members.filter(m => message.guild.member(m).roles.has(getRole.id) && !m.user.bot).size == 0) return message.channel.send(`:no_entry: | I can\'t find any user have **${getRole.name}** role!`);
