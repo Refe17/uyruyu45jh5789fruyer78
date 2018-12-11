@@ -287,11 +287,12 @@ client.on('message', message => {
 		if(userM.id == message.author.id) return err(message, "You cant give mute to yourself.");
 		if(userM.user.bot) return err(message, "You cant give mute to bot.");
 		if(message.guild.member(userM.user).hasPermission('ADMINISTRATOR')) return err(message, `I cant give to ${userM.user.username} mute.`);
-		var muteRole = message.guild.roles.find(r => r.name == 'Muted').id;
+		var muteRole = message.guild.roles.find(r => r.name == 'Muted');
 		if(!muteRole) return err(message, "I cant find role with name Muted.");
+		if(message.guild.member(userM.user).roles.has(muteRole.id)) return err(message, `${userM.user.username} already muted.`);
 		var reasonA = message.content.split(' ').slice(2).join(' ');
-		if(!reasonA) reasonA = 'No reason given.';
-		message.guild.member(userM.user).addRole(message.guild.roles.find(r => r.name == 'Muted').id, {
+		if(!reasonA) reasonA = "No reason given.";
+		message.guild.member(userM.user).addRole(muteRole.id, {
 			reason: reasonA
 		});
 		suc(message, `Successfully give ${userM.user.username} Muted.`);
