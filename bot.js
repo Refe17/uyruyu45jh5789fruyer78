@@ -43,7 +43,7 @@ client.on('message', message => {
 			.addField(`(4) ${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
 			.addField(`(5) ${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
 			.setTimestamp()
-			.setFooter(message.author.tag, message.author.avatarURL);
+			.setFooter(`Use ${prefix}help <command> for more informations.`);
 			message.channel.send({
 				embed: help
 			});
