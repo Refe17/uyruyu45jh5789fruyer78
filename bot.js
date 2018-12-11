@@ -279,7 +279,16 @@ client.on('message', message => {
 	}
 	
 	if(command == prefix + 'mute') {
-		
+		if(!message.member.hasPermission('BAN_MEMBERS')) return;
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
+		if(!args[1]) return err(message, "Mention the member to give him mute.");
+		if(!userM) return err(message, "I cant find the member.");
+		if(userM.id == message.author.id) return err(message, "You cant give mute to yourself.");
+		if(userM.user.bot) return err(message, "You cant give mute to bot.");
+		if(message.guild.member(userM.user).hasPermission('ADMINISTRATOR')) return err(message, `I cant give to ${userM.user.username} mute.`);
+		message.guild.member(userM.user).addRole(message.guild.roles.find(r => r.name == 'Muted').id);
+		suc(message, `Successfully give ${userM.user.username} Muted.`);
 	}
 	
 	if(command == prefix + 'unmute') {
