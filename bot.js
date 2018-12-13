@@ -287,6 +287,27 @@ client.on('message', message => {
 		}
 	}
 	
+	if(command == prefix + 'bc') {
+		if(!message.member.hasPermission('ADMINISTRATOR')) return;
+		var argsBC = message.content.split(' ').slice(1).join(' ');
+		if(!argsBC) return err(message, "Type the message to send.");
+		let timer = new Discord.RichEmbed()
+		.setTitle(`:timer: Please wait a few seconds ..`)
+		.setColor('#d3c325');
+		message.channel.send({
+			embed: timer
+		}).then(msg => {
+			message.guild.members.filter(m => !m.user.bot).forEach(m => {
+				m.send(argsBC.replace(/[user]/g, m)).catch(err => console.log(err));
+			});
+			setTimeout(() => {
+				msg.edit({
+					embed: new Discord.RichEmbed().setAuthor(`Successfully sent the message to ${message.guild.members.filter(m => !m.user.bot).size}`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
+				});
+			}, 20000);
+		});
+	}
+	
 	if(command == prefix + 'ban') {
 		if(!message.member.hasPermission('BAN_MEMBERS')) return;
 		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
@@ -341,6 +362,18 @@ client.on('message', message => {
 		if(message.guild.member(client.user).highestRole.position <= message.guild.member(userM.user).highestRole.position) return err(message, `I cant kicked ${userM.user.username}.`);
 		message.guild.member(userM.user).kick();
 		suc(message, `Successfully kicked ${userM.user.username}.`);
+	}
+	
+	if(command == prefix + 'avatar') {
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		var user = userM;
+		if(!user) user = message.author;
+		var avatar = new Discord.RichEmbed()
+		.setAuthor(`${user.user.username}'s Avatar`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
+		.setImage(user.user.avatarURL);
+		message.channel.send({
+			embed: avatar
+		});
 	}
 });
 
