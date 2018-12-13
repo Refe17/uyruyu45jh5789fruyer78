@@ -366,11 +366,16 @@ client.on('message', message => {
 	
 	if(command == prefix + 'avatar') {
 		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
-		var member = message.guild.member(message.mentions.users.first() || message.guild.members.find(m => m.id == args[1])).user;
-		if(!member) member = message.author;
+		if(userM) {
+			var nameMe = userM.user.username;
+			var avatarUr = userM.user.avatarURL;
+		}else {
+			var nameMe = message.author.username;
+			var avatarUr = message.author.avatarURL;
+		}
 		var avatar = new Discord.RichEmbed()
-		.setAuthor(`${userM.username}'s Avatar`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
-		.setImage(userM.avatarURL);
+		.setAuthor(`${nameMe}'s Avatar`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
+		.setImage(avatarUr);
 		message.channel.send({
 			embed: avatar
 		});
