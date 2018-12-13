@@ -113,7 +113,7 @@ client.on('message', message => {
 		}
 	}
 	
-	if(message.content == 'رابط') message.author.send('https://discord.gg/sG8ZXsA').catch(error => err(message, "You must open your DM for link."));
+	if(message.content == 'رابط') message.author.send('https://discord.gg/vK7Nash').catch(error => err(message, "You must open your DM for link."));
 	
 	if(command == prefix + 'role') {
 		if(!message.member.hasPermission('MANAGE_ROLES')) return;
@@ -366,10 +366,11 @@ client.on('message', message => {
 	
 	if(command == prefix + 'avatar') {
 		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
-		if(!userM) userM = message.author;
+		var member = message.guild.member(message.mentions.users.first() || message.guild.members.find(m => m.id == args[1])).user;
+		if(!member) member = message.author;
 		var avatar = new Discord.RichEmbed()
-		.setAuthor(`${userM.user.username}'s Avatar`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
-		.setImage(userM.user.avatarURL);
+		.setAuthor(`${userM.username}'s Avatar`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
+		.setImage(userM.avatarURL);
 		message.channel.send({
 			embed: avatar
 		});
