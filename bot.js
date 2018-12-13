@@ -369,12 +369,15 @@ client.on('message', message => {
 		if(userM) {
 			var avatarUr = userM.user.avatarURL;
 			var nameMe = userM.user.username;
+			var colorRole = userM.highestRole.hexColor;
 		}else {
 			var avatarUr = message.author.avatarURL;
 			var nameMe = message.author.username;
+			var colorRole = message.member.highestRole.hexColor;
 		}
 		var avatar = new Discord.RichEmbed()
 		.setAuthor(`${nameMe}'s Avatar`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
+		.setColor(colorRole)
 		.setImage(avatarUr);
 		message.channel.send({
 			embed: avatar
