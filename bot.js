@@ -5,29 +5,11 @@ client.on('ready', () => {
     console.log(client.user.tag + ' Ready!');
 });
 
-function err(message, args) {
-    const err = new Discord.RichEmbed()
-    .setAuthor(args, "https://tse1.mm.bing.net/th?id=OIP.J-y_zWr6CiYBywhxuhKOVAHaHa&pid=15.1&P=0&w=300&h=300")
-    .setColor('RED');
-    message.channel.send({
-        embed: err
-    });
-}
-function suc(message, args) {
-    const suc = new Discord.RichEmbed()
-    .setAuthor(args, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
-    .setColor('GREEN');
-    message.channel.send({
-        embed: suc
-    });
-}
-
-var prefix = '-';
-
 client.on('message', message => {
 	if(message.author.bot) return;
 	if(message.channel.type === 'dm') return;
 	
+	var prefix = '-';
 	var command = message.content.toLowerCase().split(" ")[0];
 	var args = message.content.toLowerCase().split(" ");
 	var userM = message.guild.member(message.mentions.users.first() || message.guild.members.find(m => m.id === args[1]));
@@ -383,6 +365,40 @@ client.on('message', message => {
 			embed: avatar
 		});
 	}
+	
+	if(command == prefix + 'clear') {
+		if(!message.member.hasPermission('MANAGE_MESSAGES')) return;
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('MANAGE_MESSAGES')) return err(message, "I dont have Manage Messages permission.");
+		if(!args[1]) args[1] = 100;
+		if(args[1] && isNaN(args[1])) return err(message, "Must be a number.");
+		if(args[1] > 100 || args[1] < 2) return err(message, "Choose number from 2 to 100.");
+		message.channel.bulkDelete(args[1]).then(messages => {
+			var suc = new Discord.RichEmbed()
+    			.setAuthor(`Successfully delete ${messages.size} message.`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
+			.setColor('GREEN');
+			message.channel.send({
+        			embed: suc
+    			}).then(msg => msg.delete(2000));
+		});
+	}
 });
+
+function err(message, args) {
+    var err = new Discord.RichEmbed()
+    .setAuthor(args, "https://tse1.mm.bing.net/th?id=OIP.J-y_zWr6CiYBywhxuhKOVAHaHa&pid=15.1&P=0&w=300&h=300")
+    .setColor('RED');
+    message.channel.send({
+        embed: err
+    });
+}
+function suc(message, args) {
+    var suc = new Discord.RichEmbed()
+    .setAuthor(args, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340")
+    .setColor('GREEN');
+    message.channel.send({
+        embed: suc
+    });
+}
 
 client.login(process.env.BOT_TOKEN);
