@@ -21,9 +21,11 @@ client.on('message', message => {
 			.setColor('GREEN')
 			.addField(`(1) ${prefix}ban`, '`The role of the bot must be higher than the person to be banned and must have permission to ban members.`')
 			.addField(`(2) ${prefix}kick`, '`The role of the bot must be higher than the person to be kicked and must have permission to kick members.`')
-			.addField(`(3) ${prefix}role`, '`The role of bot must be higher than the role mentioned and must have permission to give the roles.`')
-			.addField(`(4) ${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
-			.addField(`(5) ${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
+			.addField(`(3) ${prefix}clear`, '`The member must have permission Manage Messages to use this command.`')
+			.addField(`(4) ${prefix}customer`, '`The member must have role Seller Team to use this command.`')
+			.addField(`(5) ${prefix}role`, '`The role of bot must be higher than the role mentioned and must have permission to give the roles.`')
+			.addField(`(6) ${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
+			.addField(`(7) ${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
 			.setTimestamp()
 			.setFooter(`Use ${prefix}help <command> for more informations.`, "https://media1.picsearch.com/is?6-_gwqS1fu7CGInI2gbrjFizd6p1YVcMfLWzrF66i2Y&height=289");
 			message.channel.send({
@@ -56,6 +58,28 @@ client.on('message', message => {
 			.setFooter(message.author.tag, message.author.avatarURL);
 			message.channel.send({
 				embed: ban
+			});
+		}else if(args[1] == 'clear') {
+			const clear = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Clear Command.')
+			.setColor('GREEN')
+			.setDescription('The member must have permission Manage Messages to use this command.\n')
+			.addField(`-clear <number>`, 'The number must from 2 to 100.')
+			.setTimestamp()
+			.setFooter(message.author.tag, message.author.avatarURL);
+			message.channel.send({
+				embed: clear
+			});
+		}else if(args[1] == 'customer') {
+			const customer = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Ban Command.')
+			.setColor('GREEN')
+			.setDescription('The member must have role Seller Team to use this command.\n')
+			.addField(`-customer <member>`, 'Give member role customer by id or mention.')
+			.setTimestamp()
+			.setFooter(message.author.tag, message.author.avatarURL);
+			message.channel.send({
+				embed: customer
 			});
 		}else if(args[1] == 'kick') {
 			const kick = new Discord.RichEmbed()
@@ -381,6 +405,18 @@ client.on('message', message => {
         			embed: suc
     			}).then(msg => msg.delete(2000));
 		});
+	}
+	
+	if(command == prefix + 'customer') {
+		var sellersRole = message.guild.roles.get('501474737583554561');
+		var customerRole = message.guild.roles.get('494159592683470849');
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
+		if(!message.member.roles.has(sellersRole) || !message.member.hasPermission('ADMINISTRATOR')) return;
+		if(!userM) return err(message, "Mention the member to give him role Customer.");
+		if(message.guild.member(userM.user).roles.has(customerRole)) return err(message, `${userM.user.username} already have role Customer.`);
+		message.guild.member(userM.user).addRole(customerRole);
+		suc(message, `Successfully give ${userM.user.username} role Customer.`);
 	}
 });
 
