@@ -363,7 +363,7 @@ client.on('message', message => {
 		var customerRole = message.guild.roles.get('494159592683470849');
 		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
 		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
-		if(!message.member.roles.has(sellersRole.id) || !message.member.hasPermission('ADMINISTRATOR')) return err(message, "You dont have role Seller Team to use this command.");
+		if(!message.member.roles.has(sellersRole.id)) return err(message, "You dont have role Seller Team to use this command.");
 		if(!userM) return err(message, "Mention the member to give him role Customer.");
 		if(userM.user.bot) return err(message, "You cant give bot the role.");
 		if(message.guild.member(userM.user).roles.has(customerRole.id)) return err(message, `${userM.user.username} already have role Customer.`);
