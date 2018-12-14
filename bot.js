@@ -72,7 +72,7 @@ client.on('message', message => {
 			});
 		}else if(args[1] == 'customer') {
 			const customer = new Discord.RichEmbed()
-			.setTitle(':white_check_mark: Ban Command.')
+			.setTitle(':white_check_mark: Customer Command.')
 			.setColor('GREEN')
 			.setDescription('The member must have role Seller Team to use this command.\n')
 			.addField(`-customer <member>`, 'Give member role customer by id or mention.')
@@ -358,6 +358,18 @@ client.on('message', message => {
 		suc(message, `Successfully remove muted from ${userM.user.username}.`);
 	}
 	
+	if(command == prefix + 'customer') {
+		var sellersRole = message.guild.roles.get('501474737583554561');
+		var customerRole = message.guild.roles.get('494159592683470849');
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
+		if(!message.member.roles.has(sellersRole) || !message.member.hasPermission('ADMINISTRATOR')) return err(message, "You dont have role Seller Team to use this command.");
+		if(!userM) return err(message, "Mention the member to give him role Customer.");
+		if(message.guild.member(userM.user).roles.has(customerRole)) return err(message, `${userM.user.username} already have role Customer.`);
+		message.guild.member(userM.user).addRole(customerRole);
+		suc(message, `Successfully give ${userM.user.username} role Customer.`);
+	}
+	
 	if(command == prefix + 'kick') {
 		if(!message.member.hasPermission('KICK_MEMBERS')) return;
 		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
@@ -405,18 +417,6 @@ client.on('message', message => {
         			embed: suc
     			}).then(msg => msg.delete(2000));
 		});
-	}
-	
-	if(command == prefix + 'customer') {
-		var sellersRole = message.guild.roles.get('501474737583554561');
-		var customerRole = message.guild.roles.get('494159592683470849');
-		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
-		if(!message.guild.member(client.user).hasPermission('MANAGE_ROLES')) return err(message, "I dont have Manage Roles permission.");
-		if(!message.member.roles.has(sellersRole) || !message.member.hasPermission('ADMINISTRATOR')) return;
-		if(!userM) return err(message, "Mention the member to give him role Customer.");
-		if(message.guild.member(userM.user).roles.has(customerRole)) return err(message, `${userM.user.username} already have role Customer.`);
-		message.guild.member(userM.user).addRole(customerRole);
-		suc(message, `Successfully give ${userM.user.username} role Customer.`);
 	}
 });
 
