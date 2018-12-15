@@ -312,6 +312,7 @@ client.on('message', message => {
 					embed: new Discord.RichEmbed().setAuthor(`Successfully send the message to ${message.guild.members.filter(m => !m.user.bot).size} member(s)`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
 				});
 			}, 20000);
+		})
 	}
 	
 	if(command == prefix + 'ban') {
