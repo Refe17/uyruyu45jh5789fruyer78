@@ -292,18 +292,18 @@ client.on('message', message => {
 			}else err(message, `Use ${prefix}help for more informations.`);
 		}
 	}
-	
   if (message.content.startsWith(prefix + "bc")) {
     if (message.author.id != "284151161291014144")
     if (message.author.id != "346066545107009537") return message.reply("ولدددد م عندك برمششششن")
-    var argsBC = message.content.split(' ').slice(1).join(' ');
+    var argsBC = message.content.split(" ").slice(1).join(' ');
     if(!argsBC) return err(message, "Type the message to send.");
-    message.guild.members.filter(m => !m.user.bot).forEach(m => {
-      m.send(argsBC.replace(/muser/g, m)).catch(err => console.log(err));
-      message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\` : عدد الاعضاء المستلمين`)
+    message.guild.members.filter(m => m.presence.status !== 'offline').forEach(m => {
+      m.send(argsBC.replace(/`user`/g, m)).catch(err => console.log(err));
+
+      })
+      message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\`: عدد الاعضاء المستلمين`)
       message.delete();
-				});
-			}
+  }	
 
 	
 	
