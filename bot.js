@@ -292,20 +292,27 @@ client.on('message', message => {
 			}else err(message, `Use ${prefix}help for more informations.`);
 		}
 	}
-  if (message.content.startsWith(prefix + "bc")) {
-    if (message.author.id != "284151161291014144")
-    if (message.author.id != "346066545107009537") return message.reply("ولدددد م عندك برمششششن")
-    var argsBC = message.content.split(" ").slice(1).join(' ');
-    if(!argsBC) return err(message, "Type the message to send.");
-    message.guild.members.filter(m => m.presence.status !== 'offline').forEach(m => {
-      m.send(argsBC.replace(/`user`/g, m)).catch(err => console.log(err));
-
-      })
-      message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\`: عدد الاعضاء المستلمين`)
-      message.delete();
-  }	
-
 	
+	if(command == prefix + 'bc') {
+		var argsBC = message.content.split(' ').slice(1).join(' ');
+		if(!message.member.hasPermission('ADMINISTRATOR')) return;
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!argsBC) return err(message, "Type the message to send it.");
+		let timer = new Discord.RichEmbed()
+		.setTitle(`:timer: Please wait a few seconds ..`)
+		.setColor('#d3c325');
+		message.channel.send({
+			embed: timer
+		}).then(message1 => {
+			message.guild.members.filter(m => !m.user.bot).forEach(m => {
+				m.send(argsBC).catch(err => console.log(err));
+			});
+			setTimeout(() => {
+				message1.edit({
+					embed: new Discord.RichEmbed().setAuthor(`Successfully send the message to ${message.guild.members.filter(m => !m.user.bot).size} member(s)`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
+				});
+			}, 20000);
+	}
 	
 	if(command == prefix + 'ban') {
 		if(!message.member.hasPermission('BAN_MEMBERS')) return;
