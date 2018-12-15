@@ -293,26 +293,19 @@ client.on('message', message => {
 		}
 	}
 	
-	if(command == prefix + 'bc') {
-		if(!message.member.hasPermission('ADMINISTRATOR')) return;
-		var argsBC = message.content.split(' ').slice(1).join(' ');
-		if(!argsBC) return err(message, "Type the message to send.");
-		let timer = new Discord.RichEmbed()
-		.setTitle(`:timer: Please wait a few seconds ..`)
-		.setColor('#d3c325');
-		message.channel.send({
-			embed: timer
-		}).then(msg => {
-			message.guild.members.filter(m => !m.user.bot).forEach(m => {
-				m.send(argsBC.replace(/[user]/g, m)).catch(err => console.log(err));
-			});
-			setTimeout(() => {
-				msg.edit({
-					embed: new Discord.RichEmbed().setAuthor(`Successfully sent the message to ${message.guild.members.filter(m => !m.user.bot).size}`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
+  if (message.content.startsWith(prefix + "bc")) {
+    if (message.author.id != "284151161291014144")
+    if (message.author.id != "346066545107009537") return message.reply("ولدددد م عندك برمششششن")
+    var argsBC = message.content.split(' ').slice(1).join(' ');
+    if(!argsBC) return err(message, "Type the message to send.");
+    message.guild.members.filter(m => !m.user.bot).forEach(m => {
+      m.send(argsBC.replace(/muser/g, m)).catch(err => console.log(err));
+      message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\` : عدد الاعضاء المستلمين`)
+      message.delete();
 				});
-			}, 20000);
-		});
-	}
+			}
+
+	
 	
 	if(command == prefix + 'ban') {
 		if(!message.member.hasPermission('BAN_MEMBERS')) return;
