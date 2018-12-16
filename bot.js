@@ -5,9 +5,11 @@ client.on('ready', () => {
     console.log(client.user.tag + ' Ready!');
 });
 
+var cooldown = new Set();
+
 client.on('message', message => {
 	if(message.author.bot) return;
-	if(message.channel.type === 'dm') return;
+	if(message.channel.type !== 'text') return;
 	
 	var prefix = '-';
 	var command = message.content.toLowerCase().split(" ")[0];
@@ -295,9 +297,14 @@ client.on('message', message => {
 	
 	if(command == prefix + 'bc') {
 		var argsBC = message.content.split(' ').slice(1).join(' ');
+		var x = 0;
 		if(!message.member.hasPermission('ADMINISTRATOR')) return;
 		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(cooldown.has(message.guild.id)) return err(message, "You must wait half hour to use this command again.");
+		cooldown.add(message.guild.id);
 		if(!argsBC) return err(message, "Type the message to send it.");
+		message.delete();
+		
 		let timer = new Discord.RichEmbed()
 		.setTitle(`:timer: Please wait a few seconds ..`)
 		.setColor('#d3c325');
@@ -305,14 +312,15 @@ client.on('message', message => {
 			embed: timer
 		}).then(message1 => {
 			message.guild.members.filter(m => !m.user.bot).forEach(m => {
-				m.send(argsBC).catch(err => console.log(err));
+				m.send(argsBC).catch(err => x++);
 			});
 			setTimeout(() => {
 				message1.edit({
 					embed: new Discord.RichEmbed().setAuthor(`Successfully send the message to ${message.guild.members.filter(m => !m.user.bot).size} member(s)`, "https://media3.picsearch.com/is?yYyH6QeF4vRyybuH60KCypFS9-Hs1BdhfebbWj6OhyI&height=340").setColor('GREEN')
 				});
 			}, 20000);
-		})
+		});
+		setTimeout(() => cooldown.delete(message.guild.id), 1800000);
 	}
 	
 	if(command == prefix + 'ban') {
