@@ -6,6 +6,7 @@ client.on('ready', () => {
 });
 
 var cooldown = new Set();
+var points = {};
 
 client.on('message', message => {
 	if(message.author.bot) return;
@@ -25,9 +26,12 @@ client.on('message', message => {
 			.addField(`(2) ${prefix}kick`, '`The role of the bot must be higher than the person to be kicked and must have permission to kick members.`')
 			.addField(`(3) ${prefix}clear`, '`The member must have permission Manage Messages to use this command.`')
 			.addField(`(4) ${prefix}customer`, '`The member must have role Seller Team to use this command.`')
-			.addField(`(5) ${prefix}role`, '`The role of bot must be higher than the role mentioned and must have permission to give the roles.`')
-			.addField(`(6) ${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
-			.addField(`(7) ${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
+			.addField(`(5) ${prefix}bc`, '`The member must have role Seller Team to use this command.`')
+			.addField(`(6) ${prefix}points`, '`The member must have role Seller Team to use this command.`')
+			.addField(`(7) ${prefix}avatar`, '`The member must have role Seller Team to use this command.`')
+			.addField(`(8) ${prefix}role`, '`The role of bot must be higher than the role mentioned and must have permission to give the roles.`')
+			.addField(`(9) ${prefix}mute`, '`The mentioned member must not have the administrator\'s permission and must not be a bot and must not have already been mute.`')
+			.addField(`(10) ${prefix}unmute`, '`The mentioned member must have muted to unmute him.`')
 			.setTimestamp()
 			.setFooter(`Use ${prefix}help <command> for more informations.`, "https://media1.picsearch.com/is?6-_gwqS1fu7CGInI2gbrjFizd6p1YVcMfLWzrF66i2Y&height=289");
 			message.channel.send({
@@ -321,6 +325,75 @@ client.on('message', message => {
 			}, 20000);
 		});
 		setTimeout(() => cooldown.delete(message.guild.id), 1800000);
+	}
+	
+	if(command == prefix + 'points') {
+		if(!message.guild.member(client.user).hasPermission('EMBED_LINKS')) return message.channel.send(':no_entry: | I dont have Embed Links permission.');
+		if(!args[1]) {
+			if(!points) return err(message, "Added some points.");
+			var members = Object.values(points);
+			var memb = members.filter(m => m.points >= 1);
+			if(memb.length == 0) return err(message, "Added some points.");
+			var x = 1;
+			let pointsTop = new Discord.RichEmbed()
+			.setAuthor(message.guild.name, message.guild.iconURL)
+			.setColor('GREEN')
+			.setDescription(memb.sort((second, first) => first.points > second.points).slice(0, 10).map(m => `**${x++}.** <@${m.id}> | ${m.points}`).join('\n'))
+			.setTimestamp()
+			.setFooter(`By request of ${message.author.username}`, message.author.avatarURL);
+			message.channel.send({
+				embed: pointsTop
+			});
+		}else if(args[1] == 'reset') {
+			if(!message.member.hasPermission('MANAGE_GUILD')) return err(message, "You dont have Manage Server permission.");
+			if(!points) return err(message, "No points to reset it.");
+			var members = Object.values(points);
+			var memb = members.filter(m => m.points >= 1);
+			if(memb.length == 0) return err(message, "No points to reset it.");
+			points = {};
+			suc(message, "Successfully reset all points.");
+		}else if(userM) {
+			if(!message.member.hasPermission('MANAGE_GUILD')) return err(message, "You dont have Manage Server permission.");
+			if(!points[userM.user.id]) points[userM.user.id] = {
+				points: 0,
+				id: userM.user.id
+			};
+			if(!args[2]) {
+				if(points[userM.user.id].points == 0) return err(message, `${userM.user.username} Not have any points.`);
+				suc(message, `${userM.user.username} have ${points[userM.user.id].points} points.`);
+			}else if(args[2] == 'reset') {
+				if(points[userM.user.id].points == 0) return err(message, `${userM.user.userbane} not have any points to reset it.`);
+				points[userM.user.id].points = 0;
+				suc(message, `Successfully reset ${userM.user.username} points.`);
+			}else if(args[2].startsWith('+')) {
+				args[2] = args[2].slice(1);
+				args[2] = parseInt(Math.floor(args[2]));
+				if(!args[2]) return err(message, "Please type the number.");
+				if(isNaN(args[2])) return err(message, "The points must be a number.");
+				if(args[2] > 1000000) return err(message, "The maximum for add points 1million.");
+				if(args[2] < 1) return err(message, "The minimum for add points 1.");
+				if((points[userM.user.id].points + args[2]) > 1000000) args[2] = 1000000 - points[userM.user.id].points;
+				points[userM.user.id].points += args[2];
+				suc(message, `Successfully added ${args[2]} to ${userM.user.username} (${points[userM.user.id].points} Total).`);
+			}else if(args[2].startsWith('-')) {
+				args[2] = args[2].slice(1);
+				args[2] = parseInt(Math.floor(args[2]));
+				if(!args[2]) return err(message, "Please type the number.");
+				if(isNaN(args[2])) return err(message, "The points must be a number.");
+				if(args[2] > 1000000) return err(message, "The maximum for remove points 1million.");
+				if(args[2] < 1) return err(message, "The minimum for remove points 1.");
+				if((points[userM.user.id].points - args[2]) < 0) args[2] = points[userM.user.id].points;
+				points[userM.user.id].points -= args[2];
+				suc(message, `Successfully remove ${args[2]} from ${userM.user.username} (${points[userM.user.id].points} Total).`);
+			}else if(!args[2].startsWith('+') || !args[2].startsWith('-')) {
+				args[2] = parseInt(Math.floor(args[2]));
+				if(isNaN(args[2])) return err(message, "The points must be a number.");
+				if(args[2] > 1000000) return err(message, "The miximum of points 1million.");
+				if(args[2] < 1) return err(message, "The minimum of points 1.");
+				points[userM.user.id].points = args[2];
+				suc(message, `Successfully set the points for ${userM.user.username} to ${args[2]}`);
+			}
+		}
 	}
 	
 	if(command == prefix + 'ban') {
