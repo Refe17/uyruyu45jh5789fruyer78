@@ -368,6 +368,7 @@ client.on('message', message => {
 			}else if(args[2].startsWith('+')) {
 				args[2] = args[2].slice(1);
 				args[2] = parseInt(Math.floor(args[2]));
+				if(points[userM.user.id].points == 1000000) return err(message, `${userM.user.username} has reach the maximum of points.`);
 				if(!args[2]) return err(message, "Please type the number.");
 				if(isNaN(args[2])) return err(message, "The points must be a number.");
 				if(args[2] > 1000000) return err(message, "The maximum for add points 1million.");
@@ -378,6 +379,7 @@ client.on('message', message => {
 			}else if(args[2].startsWith('-')) {
 				args[2] = args[2].slice(1);
 				args[2] = parseInt(Math.floor(args[2]));
+				if(points[userM.user.id].points == 0) return err(message, `${userM.user.username} not have any points to remove.`);
 				if(!args[2]) return err(message, "Please type the number.");
 				if(isNaN(args[2])) return err(message, "The points must be a number.");
 				if(args[2] > 1000000) return err(message, "The maximum for remove points 1million.");
