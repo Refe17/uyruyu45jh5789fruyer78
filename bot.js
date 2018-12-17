@@ -394,8 +394,8 @@ client.on('message', message => {
 				if(args[2] < 1) return err(message, "The minimum of points 1.");
 				points[userM.user.id].points = args[2];
 				suc(message, `Successfully set the points for ${userM.user.username} to ${args[2]}`);
-			}
-		}
+			}else err(message, `Use ${prefix}help for more informations.`);
+		}else err(message, `Use ${prefix}help for more informations.`);
 	}
 	
 	if(command == prefix + 'ban') {
