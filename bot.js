@@ -392,6 +392,7 @@ client.on('message', message => {
 				if(isNaN(args[2])) return err(message, "The points must be a number.");
 				if(args[2] > 1000000) return err(message, "The miximum of points 1million.");
 				if(args[2] < 1) return err(message, "The minimum of points 1.");
+				if(points[userM.user.id].points == args[2]) return err(message, `${userM.user.username} points is already ${args[2]}.`);
 				points[userM.user.id].points = args[2];
 				suc(message, `Successfully set the points for ${userM.user.username} to ${args[2]}`);
 			}else err(message, `Use ${prefix}help for more informations.`);
