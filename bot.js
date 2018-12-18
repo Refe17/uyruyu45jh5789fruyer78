@@ -54,6 +54,22 @@ client.on('message', message => {
 			message.channel.send({
 				embed: role
 			});
+		}else if(args[1] == 'points') {
+			var points = new Discord.RichEmbed()
+			.setTitle(':white_check_mark: Points Command.')
+			.setColor('GREEN')
+			.setDescription('The member must have Manage Server to use this command.')
+			.addField(`${prefix}points`, 'Show top 10 points.')
+			.addField(`${prefix}points reset`, 'Reset all points.')
+			.addField(`${prefix}points <member> +1`, 'Add to user points, you can add more.')
+			.addField(`${prefix}points <member> -1`, 'Remove from user points, you can remove more.')
+			.addField(`${prefix}points <member> 1`, 'Sets points for user.')
+			.addField(`${prefix}points <member> reset`, 'Reset user points.')
+			.setTimestamp()
+			.setFooter(message.author.tag, message.author.avatarURL);
+			message.channel.send({
+				embed: points
+			});
 		}else if(args[1] == 'ban') {
 			const ban = new Discord.RichEmbed()
 			.setTitle(':white_check_mark: Ban Command.')
