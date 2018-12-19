@@ -17,6 +17,12 @@ client.on('message', message => {
 	var args = message.content.toLowerCase().split(" ");
 	var userM = message.guild.member(message.mentions.users.first() || message.guild.members.find(m => m.id === args[1]));
 	
+	if(message.channel.id == '522855663681011713' || message.channel.id == '523508359786266635' || message.channel.id == '522863535227666442' || message.channel.id == '522863573572255755' || message.channel.id == '522863680673677344') {
+		   message.channel.send({
+		   	file: "https://cdn.discordapp.com/attachments/522863573572255755/524701047646846987/5c9b75845f8fdb2e.png"
+		   });
+	}
+	
 	if(command == prefix + 'help') {
 		if(!args[1]) {
 			const help = new Discord.RichEmbed()
