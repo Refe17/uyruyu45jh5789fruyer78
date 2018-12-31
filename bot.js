@@ -7,7 +7,7 @@ client.on('ready', () => {
 		type: "STREAMING",
 		url: "https://www.twitch.tv/blackshop"
 	});
-	client.user.setAvatar("");
+	client.user.setAvatar("https://cdn.discordapp.com/attachments/426968702072913921/529266100723122198/JPEG_20181231_135048.jpg");
 });
 
 var cooldown = new Set();
