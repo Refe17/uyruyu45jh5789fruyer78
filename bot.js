@@ -2,7 +2,12 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 client.on('ready', () => {
-    console.log(client.user.tag + ' Ready!');
+    	console.log(client.user.tag + ' Ready!');
+	client.user.setActivity('Black Shop.', {
+		type: "STREAMING",
+		url: "https://www.twitch.tv/blackshop"
+	});
+	client.user.setAvatar("");
 });
 
 var cooldown = new Set();
@@ -148,6 +153,55 @@ client.on('message', message => {
 	}
 	
 	if(message.content == 'رابط') message.author.send('https://discord.gg/vK7Nash').catch(error => err(message, "You must open your DM for link."));
+	
+    	if(command == prefix + 'setplay') {
+        	if(message.author.id !== '346066545107009537') return err(message, "Only ReFe can use this command.");
+        	args = message.content.split(' ').slice(1).join(' ');
+			if(!args) return err(message, "Please type the word to set.");
+			if(args.length < 1 || args.length > 50) return err(message, "The words only between 1 to 50 characters.");
+			message.delete();
+			client.user.setActivity(args, {
+				type: "PLAYING"
+			});
+			suc(message, `Successfully set (Playing) to (${args}).`);
+    	}
+	
+	if(command == prefix + 'setlisten') {
+       		if(message.author.id !== '346066545107009537') return err(message, "Only ReFe can use this command.");
+	        args = message.content.split(' ').slice(1).join(' ');
+		if(!args) return err(message, "Please type the word to set.");
+		if(args.length < 1 || args.length > 50) return err(message, "The words only between 1 to 50 characters.");
+		message.delete();
+		client.user.setActivity(args, {
+			type: "LISTENING"
+		});
+		suc(message, `Successfully set (Listening) to (${args}).`);
+    	}
+	
+    	if(command == prefix + 'setwatch') {
+        	if(message.author.id !== '346066545107009537') return err(message, "Only ReFe can use this command.");
+        	args = message.content.split(' ').slice(1).join(' ');
+		if(!args) return err(message, "Please type the word to set.");
+		if(args.length < 1 || args.length > 50) return err(message, "The words only between 1 to 50 characters.");
+		message.delete();
+		client.user.setActivity(args, {
+			type: "WATCHING"
+		});
+		suc(message, `Successfully set (Watching) to (${args}).`);
+    	}
+	
+	if(command == prefix + 'setstream') {
+        	if(message.author.id !== '346066545107009537') return err(message, "Only ReFe can use this command.");
+        	args = message.content.split(' ').slice(1).join(' ');
+		if(!args) return err(message, "Please type the word to set.");
+		if(args.length < 1 || args.length > 50) return err(message, "The words only between 1 to 50 characters.");
+		message.delete();
+		client.user.setActivity(args, {
+			type: "STREAMING",
+            		url: "https://www.twitch.tv/blackshop"
+		});
+		suc(message, `Successfully set (Streaming) to (${args}).`);
+	}
 	
 	if(command == prefix + 'role') {
 		if(!message.member.hasPermission('MANAGE_ROLES')) return;
